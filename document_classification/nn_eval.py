@@ -17,7 +17,7 @@ args = Namespace(
     model_state_file='model.pth',
     document_csv='../data/news_documents/news_dataset.csv',
     # document_csv='data/yelp/reviews_with_splits_full.csv',
-    save_dir='../model_storage/perceptron_classifier/',
+    save_dir='model_storage/perceptron_classifier/',
     # Runtime options
     catch_keyboard_interrupt=True,
     cuda=True,

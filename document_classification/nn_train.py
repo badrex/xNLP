@@ -101,7 +101,7 @@ args = Namespace(
     model_state_file='model.pth',
     document_csv='../data/news_documents/news_dataset.csv',
     # document_csv='data/yelp/reviews_with_splits_full.csv',
-    save_dir='../model_storage/perceptron_classifier/',
+    save_dir='model_storage/perceptron_classifier/',
     vectorizer_file='vectorizer.json',
     # No Model hyper parameters
     # Training hyper parameters
@@ -152,7 +152,7 @@ else:
     # create dataset and vectorizer
     dataset = vectorization.DocumentDataset.load_dataset_and_make_vectorizer(args.document_csv)
     dataset.save_vectorizer(args.vectorizer_file)
-    
+
 vectorizer = dataset.get_vectorizer()
 
 classifier = MLPerceptron(input_dim=len(vectorizer.document_vocab), hidden_dim=100, output_dim=4)
@@ -170,9 +170,7 @@ scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer=optimizer,
 
 train_state = make_train_state(args)
 
-#epoch_bar = tqdm_notebook(desc='training routine',
-                          total=args.num_epochs,
-                          position=0)
+#epoch_bar = tqdm_notebook(desc='training routine', total=args.num_epochs, position=0)
 
 """
 dataset.set_split('train')
@@ -285,15 +283,15 @@ try:
 
         scheduler.step(train_state['val_loss'][-1])
 
-        train_bar.n = 0
-        val_bar.n = 0
+        #train_bar.n = 0
+        #val_bar.n = 0
         # epoch_bar.update()
 
         if train_state['stop_early']:
             break
 
-        train_bar.n = 0
-        val_bar.n = 0
+        #train_bar.n = 0
+        #val_bar.n = 0
         # epoch_bar.update()
 
 
