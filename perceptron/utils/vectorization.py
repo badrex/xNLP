@@ -215,10 +215,10 @@ class DocumentDataset(Dataset):
         row = self._target_df.iloc[index]
 
         document_vector = \
-            self._vectorizer.vectorize(row.review)
+            self._vectorizer.vectorize(row.text)
 
         label_index = \
-            self._vectorizer.label_vocab.lookup_token(row.rating)
+            self._vectorizer.label_vocab.lookup_token(row.label)
 
         return {'x_data': document_vector,
                 'y_target': label_index}
@@ -262,17 +262,17 @@ class DocumentVectorizer(object):
         self.document_vocab = document_vocab
         self.label_vocab = label_vocab
 
-    def vectorize(self, review):
-        """Create a collapsed one-hit vector for the review
+    def vectorize(self, text):
+        """Create a collapsed one-hit vector for the text
 
         Args:
-            review (str): the review
+            text (str): the text
         Returns:
             one_hot (np.ndarray): the collapsed one-hot encoding
         """
         one_hot = np.zeros(len(self.document_vocab), dtype=np.float32)
 
-        for token in review.split(" "):
+        for token in text.split(" "):
             if token not in string.punctuation:
                 one_hot[self.document_vocab.lookup_token(token)] = 1
 
@@ -283,7 +283,7 @@ class DocumentVectorizer(object):
         """Instantiate the vectorizer from the dataset dataframe
 
         Args:
-            document_df (pandas.DataFrame): the review dataset
+            document_df (pandas.DataFrame): the text dataset
             cutoff (int): the parameter for frequency-based filtering
         Returns:
             an instance of the DocumentVectorizer
@@ -291,14 +291,14 @@ class DocumentVectorizer(object):
         document_vocab = Vocabulary(add_unk=True)
         label_vocab = Vocabulary(add_unk=False)
 
-        # Add ratings
-        for rating in sorted(set(document_df.rating)):
-            label_vocab.add_token(rating)
+        # Add labels
+        for label in sorted(set(document_df.label)):
+            label_vocab.add_token(label)
 
         # Add top words if count > provided count
         word_counts = Counter()
-        for review in document_df.review:
-            for word in review.split(" "):
+        for text in document_df.text:
+            for word in text.split(" "):
                 if word not in string.punctuation:
                     word_counts[word] += 1
 
