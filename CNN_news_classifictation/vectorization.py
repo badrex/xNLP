@@ -224,6 +224,9 @@ class NewsDataset(Dataset):
 
         # +1 if only using begin_seq, +2 if using both begin and end seq tokens
         measure_len = lambda context: len(context.split(" "))
+
+        # BDR: here, the max input lenght was changed to 100 insteamd of max input lenght
+        # in the training data
         self._max_seq_length = max(map(measure_len, news_df.text)) + 2
 
 

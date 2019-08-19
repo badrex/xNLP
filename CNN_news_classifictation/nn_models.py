@@ -72,6 +72,8 @@ class NewsClassifier(nn.Module):
         """
 
         # embed and permute so features are channels
+        # BDR: permute(2, 0, 1) is commneted, this coould lead to runtime error if not taken
+        # some catious
         x_embedded = self.emb(x_in).permute(0, 2, 1)
 
         features = self.convnet(x_embedded)

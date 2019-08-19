@@ -192,7 +192,7 @@ handle_dirs(args.save_dir)
 
 
 # Initializations
-#args.use_glove = True
+args.use_glove = True
 
 if args.reload_from_files:
     # training from a checkpoint
